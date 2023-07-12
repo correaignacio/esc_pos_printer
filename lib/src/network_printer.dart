@@ -15,8 +15,7 @@ import './enums.dart';
 /// Network Printer
 class NetworkPrinter {
   NetworkPrinter(this._paperSize, this._profile, {int spaceBetweenRows = 5}) {
-    _generator =
-        Generator(paperSize, profile, spaceBetweenRows: spaceBetweenRows);
+    _generator = Generator(paperSize, profile, spaceBetweenRows: spaceBetweenRows);
   }
 
   final PaperSize _paperSize;
@@ -31,8 +30,7 @@ class NetworkPrinter {
   PaperSize get paperSize => _paperSize;
   CapabilityProfile get profile => _profile;
 
-  Future<PosPrintResult> connect(String host,
-      {int port = 91000, Duration timeout = const Duration(seconds: 5)}) async {
+  Future<PosPrintResult> connect(String host, {int port = 91000, Duration timeout = const Duration(seconds: 5)}) async {
     _host = host;
     _port = port;
     try {
@@ -65,10 +63,7 @@ class NetworkPrinter {
     int? maxCharsPerLine,
   }) {
     _socket.add(_generator.text(text,
-        styles: styles,
-        linesAfter: linesAfter,
-        containsChinese: containsChinese,
-        maxCharsPerLine: maxCharsPerLine));
+        styles: styles, linesAfter: linesAfter, containsChinese: containsChinese, maxCharsPerLine: maxCharsPerLine));
   }
 
   void setGlobalCodeTable(String codeTable) {
@@ -76,8 +71,7 @@ class NetworkPrinter {
   }
 
   void setGlobalFont(PosFontType font, {int? maxCharsPerLine}) {
-    _socket
-        .add(_generator.setGlobalFont(font, maxCharsPerLine: maxCharsPerLine));
+    _socket.add(_generator.setGlobalFont(font, maxCharsPerLine: maxCharsPerLine));
   }
 
   void setStyles(PosStyles styles, {bool isKanji = false}) {
@@ -161,6 +155,17 @@ class NetworkPrinter {
     QRCorrection cor = QRCorrection.L,
   }) {
     _socket.add(_generator.qrcode(text, align: align, size: size, cor: cor));
+  }
+
+  void pdf417code(String text,
+      {PosAlign align = PosAlign.center,
+      PDF417Size sizeW = PDF417Size.size2,
+      PDF417Size sizeH = PDF417Size.size2,
+      PDF417SizeCol sizeCol = PDF417SizeCol.size0,
+      PDF417SizeRow sizeRow = PDF417SizeRow.size0,
+      PDF417Correction level = PDF417Correction.L}) {
+    _socket
+        .add(_generator.pdf417code(text, sizeW: sizeW, sizeH: sizeH, sizeCol: sizeCol, sizeRow: sizeRow, level: level));
   }
 
   void drawer({PosDrawer pin = PosDrawer.pin2}) {
